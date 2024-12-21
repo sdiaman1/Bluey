@@ -4,9 +4,9 @@ Using the Raspberry Pi and its Bluetooth LE GATT server and a message log from a
 
 <img src="readme/Bluey.png"/>
 
-Images by: Pixabay (tree-root-branches-leaves), Freepik (raspberry-pi, bluetooth, ladybug, mite), Flat Icons (log-file), logisstudio (bee), Ylivdesign (firefly)
+Images by Pixabay (tree), Freepik (Raspberry Pi, Bluetooth, ladybug, mite), Flat Icons (log), logisstudio (bee), and Ylivdesign (firefly).
 
-Based on: [Creating BLE GATT Server (UART Service) on Raspberry Pi](https://scribles.net/creating-ble-gatt-server-uart-service-on-raspberry-pi/). (The orignal, version 1, of the `runme.py` in this repo is from there, and also Max's instructions are excellent, check them out!)
+Based on [Creating BLE GATT Server (UART Service) on Raspberry Pi](https://scribles.net/creating-ble-gatt-server-uart-service-on-raspberry-pi/). Version 1 of the [runme.py](https://github.com/sdiaman1/Bluey/commits/main/runme.py) in this repo is from there, and also Max's instructions are excellent, check them out!
 
 # Getting Started
 
