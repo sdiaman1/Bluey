@@ -5,36 +5,35 @@ from example_advertisement import Advertisement
 from example_advertisement import register_ad_cb, register_ad_error_cb
 from example_gatt_server import Service, Characteristic
 from example_gatt_server import register_app_cb, register_app_error_cb
+import messages
 
 BLUEZ_SERVICE_NAME =           'org.bluez'
 DBUS_OM_IFACE =                'org.freedesktop.DBus.ObjectManager'
 LE_ADVERTISING_MANAGER_IFACE = 'org.bluez.LEAdvertisingManager1'
 GATT_MANAGER_IFACE =           'org.bluez.GattManager1'
 GATT_CHRC_IFACE =              'org.bluez.GattCharacteristic1'
-UART_SERVICE_UUID =            '6e400001-b5a3-f393-e0a9-e50e24dcca9e'
+UART_SERVICE_UUID =            'bc2f4cc6-aaef-4351-9034-d66268e328f0'
 UART_RX_CHARACTERISTIC_UUID =  '6e400002-b5a3-f393-e0a9-e50e24dcca9e'
-UART_TX_CHARACTERISTIC_UUID =  '6e400003-b5a3-f393-e0a9-e50e24dcca9e'
+UART_TRX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e'
 LOCAL_NAME =                   'rpi-gatt-server'
 mainloop = None
 
-class TxCharacteristic(Characteristic):
+class TrxCharacteristic(Characteristic):
     def __init__(self, bus, index, service):
-        Characteristic.__init__(self, bus, index, UART_TX_CHARACTERISTIC_UUID,
-                                ['notify'], service)
+        # In-Situ loggers notify and write using the same characteristic.
+        Characteristic.__init__(self, bus, index, UART_TRX_CHARACTERISTIC_UUID,
+                                ['notify', 'write'], service)
         self.notifying = False
-        GLib.io_add_watch(sys.stdin, GLib.IO_IN, self.on_console_input)
+        # Read the (request and response) messages from 'In-Situ smarTROLL.txt'.
+        messages.ReadFromFile("In-Situ smarTROLL.txt")
 
-    def on_console_input(self, fd, condition):
-        s = fd.readline()
-        if s.isspace():
-            pass
-        else:
-            self.send_tx(s)
-        return True
-
-    def send_tx(self, s):
+    def send(self, bytes):
         if not self.notifying:
             return
+        # Response (aka write).
+        #?? Do we need to use dbus, and decode and encode?
+        print(f"> {bytes}")
+        s = bytes.decode()
         value = []
         for c in s:
             value.append(dbus.Byte(c.encode()))
@@ -50,6 +49,15 @@ class TxCharacteristic(Characteristic):
             return
         self.notifying = False
 
+    def WriteValue(self, value, options):
+        # Request (aka notify).
+        requestBytes = bytearray(value)
+        print(f"< {requestBytes}")
+        requestString = requestBytes.hex()
+        responseString = messages.GetRandomResponse(requestString)
+        responseBytes = bytearray.fromhex(responseString)
+        self.send(responseBytes)
+
 class RxCharacteristic(Characteristic):
     def __init__(self, bus, index, service):
         Characteristic.__init__(self, bus, index, UART_RX_CHARACTERISTIC_UUID,
@@ -61,7 +69,7 @@ class RxCharacteristic(Characteristic):
 class UartService(Service):
     def __init__(self, bus, index):
         Service.__init__(self, bus, index, UART_SERVICE_UUID, True)
-        self.add_characteristic(TxCharacteristic(bus, 0, self))
+        self.add_characteristic(TrxCharacteristic(bus, 0, self))
         self.add_characteristic(RxCharacteristic(bus, 1, self))
 
 class Application(dbus.service.Object):
