@@ -1,6 +1,6 @@
 # Bluey
 
-Using the Raspberry Pi and its Bluetooth LE GATT server and a message log from an In-Situ data logger as a simulator to help test and debug your client app.
+Using the Raspberry Pi and its Bluetooth LE GATT server and a message log from an In-Situ data logger as a simulator to help test and debug your Bluetooth client app. (This can be adapted to simulate _any_ Bluetooth device!)
 
 <img src="readme/Bluey.png"/>
 
