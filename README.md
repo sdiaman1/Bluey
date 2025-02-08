@@ -23,6 +23,6 @@ The request messages are the same, in both cases, but the responses are differen
 
 One request in _In-Situ smarTROLL.txt_ has many responses, each with different parameter values (e.g., the temperature at the time of measurement).
 
-In the simulation, [messages.py](https://github.com/sdiaman1/Bluey/commits/main/messages.py) reads _In-Situ smarTROLL.txt_ and when the client app requests something, it responds with a random response message (e.g., temperature value) for that request.
+In the simulation, [messages.py](https://github.com/sdiaman1/Bluey/commits/main/messages.py) reads _In-Situ smarTROLL.txt_, and when the client app requests something, it responds with a random response message (e.g., temperature value) for that request.
 
 Also, [runme.py](https://github.com/sdiaman1/Bluey/commits/main/runme.py)'s service UUID and characteristics were updated to match those of a (real) In-Situ data logger.
