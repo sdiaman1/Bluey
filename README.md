@@ -9,11 +9,13 @@ This code simulates an [In-Situ data logger](https://in-situ.com/en/products/wat
 
 Based on [Creating BLE GATT Server (UART Service) on Raspberry Pi](https://scribles.net/creating-ble-gatt-server-uart-service-on-raspberry-pi/). Version 1 of the [runme.py](https://github.com/sdiaman1/Bluey/commits/main/runme.py) in this repo is from there, and also Max's instructions are excellent, check them out!
 
-# Getting Started
+Getting Started
+---------------
 
 Copy the `.py` and `.txt` files from this repo to a folder on your Raspberry Pi and run the `runme.py` file.
 
-# How It Works
+How It Works
+------------
 
 In the real world, your client app requests [parameter values](https://in-situ.com/en/parameters) (temperature, conductivity, pH, etc.), from In-Situ data loggers (the server), over Bluetooth.
 
@@ -29,7 +31,8 @@ In the simulation, [messages.py](https://github.com/sdiaman1/Bluey/commits/main/
 
 Also, [runme.py](https://github.com/sdiaman1/Bluey/commits/main/runme.py)'s service UUID and characteristics were updated to match those of a (real) In-Situ data logger.
 
-# When It's Needed
+When It's Needed
+----------------
 
 When you have a limited number of real devices (e.g., In-Situ data loggers), and or when people are scattered in different locations and they need to test and debug your code (e.g., on multiple OSs and phone/tablet models).
 
